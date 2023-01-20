@@ -13,7 +13,7 @@ CGNN：不懂神经网络调参（悲）
 
 GES：之前的那个
 
-GIES：和GES一样糟糕就不放图了
+GIES：和GES一样就不放图了
 
 LinGAM：跑不出来
 
@@ -26,3 +26,7 @@ SAMv1：同上
 整个bnlearn：跑不出来（如果不用graph显示x0不能为整数之类的？如果用了graph显示module 'networkx' has no attribute 'adj_matrix'
 
 跑出来的几个里选一个算法到时候扔去dowhy验证吧，或者你试试跑不出来的？
+
+------
+好了，GES的没有指明是哪个（就是名字只有一个Casual的那个，其余几个都对应相应的算法改好了名）
+其实GES的，如果是先指定骨架再去做的话效果也不差，没有那么多的孤立节点
