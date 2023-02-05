@@ -46,7 +46,7 @@ evalution=0
 filename=""
 writedir="" #貌似也是作用域的问题，不在这里写上的话后面就会认为writedir只在那个for里面定义
 data=0
-msiname="MSI-ALL"
+msiname="MSI"
 args=[]
 opts=[]
 try:
@@ -56,11 +56,10 @@ except getopt.GetoptError as err:
     exit_help()
 def readdata():
     try:
-        #filename=args[0] 这里应该是sys.argv[0]？args的0不是filename吧
-        global filename #还有就是函数内用全局变量要声明global，下面的data同理
-        filename=sys.argv[0]
+        global filename
+        filename=args[0] #还有就是函数内用全局变量要声明global，下面的data同理
         global data
-        data=pd.read_csv("new_chosen_data.csv") #这里硬编码死输入的csv名还是搞成输入参数？我这里改了是因为，原来的chosen_data有好多非数项不能跑
+        data=pd.read_csv(filename,header=None,index_col=0,low_memory=False) #这里硬编码死输入的csv名还是搞成输入参数？我这里改了是因为，原来的chosen_data有好多非数项不能跑
         #最重要的一点:数据预处理必须扔到非数项！包括sample的代号，除了index都要是数才行
         data=data.dropna()
     except:
@@ -104,10 +103,16 @@ except:
     pass
 
 def getcorrelation():
-    n=100 #后面的那个n参数没有定义，这里应该是指“取前多少个”吧，我在这里先写成常量了，或者改成用户选择？
-    nrows=data.columns.get_loc(msiname)+1
+    global data
+    del data['symbol_mrna']
+    nrows = data.columns.get_loc("MSI") + 1  # Excel中MSI所在excel中的行-1(除去了表头） 19966
+    n = 100
+    datat = pd.read_csv("origin_data.csv", header=0, index_col=0, nrows=nrows - 1).T
+
+
     if correlation==1:
-        dcorr=data.corr()
+        dcorr=datat.corr(numeric_only=True)
+        print(dcorr)
         dcorr.to_csv('corr_result.csv')#路径的问题和下面一样
         # dcorr=pd.read_csv("corr_result.csv",header=0,index_col=0)
         a=np.triu(dcorr,1)
@@ -122,7 +127,7 @@ def getcorrelation():
         # print(data.iloc[:,nrows-1])
         corr=[];o_corr=[];o_index=[];o_pv=[]
         for i in range(0,nrows):
-            dcorr,p=scipy.stats.spearmanr(data.iloc[:, nrows-1], data.iloc[:, i])
+            dcorr,p=scipy.stats.spearmanr(datat.iloc[:, nrows-1], datat.iloc[:, i])
             if not math.isnan(dcorr):
                 corr.append(dcorr)
                 o_corr.append(dcorr)
@@ -131,13 +136,18 @@ def getcorrelation():
         corr.sort(reverse=True)
         with open('corrdata.txt', 'w') as f:
             for i in range(0,len(corr)):
-                f.write(data.columns[o_index[o_corr.index(corr[i])]]);f.write("    p=")
+                f.write(datat.columns[o_index[o_corr.index(corr[i])]]);f.write("    p=")
                 f.write(f"{o_pv[o_corr.index(corr[i])]}");f.write("    ")
                 f.write(f"{corr[i]}\n")
+
+
     with open('kendall_result.txt', 'w') as f:
-            f.write('kendalltau  r and p\n\n')
-            r, p = scipy.stats.kendalltau(data.iloc[:, nrows - 1], data.iloc[:, nrows])
-            f.write('Primary Site and MSI\n');f.write(f"{r}");f.write("    ");f.write(f"{p}\n\n")
+        f.write('kendalltau  r and p\n\n')
+        #print(data.iloc[:,nrows-1])
+        #print(data.loc[:, 'Primary Site'])
+        r, p = scipy.stats.kendalltau(data.iloc[:, nrows - 1], data.iloc[:, nrows])
+        f.write('Primary Site and MSI\n');f.write(f"{r}");f.write("    ");f.write(f"{p}\n\n")
+
 def getgraph():
     import cdt
     glasso = cdt.independence.graph.Glasso()

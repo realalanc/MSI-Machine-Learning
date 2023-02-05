@@ -8,6 +8,7 @@ data=pd.read_csv("origin_data.csv",header=0,index_col=0,low_memory=False).T
 nrows=data.columns.get_loc("MSI")+1 #Excel中MSI所在excel中的行-1(除去了表头） 19966
 n=5000
 data=pd.read_csv("origin_data.csv",header=0,index_col=0,nrows=nrows-1).T
+print(data)
 dcorr=data.corr()
 dcorr.to_csv(r'corr_result.csv')
 # dcorr=pd.read_csv("corr_result.csv",header=0,index_col=0)

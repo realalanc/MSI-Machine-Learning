@@ -24,7 +24,7 @@ Mean value: -0.0005747577265720061
 random common cause method result:
 Refute: Add a random common cause
 Estimated effect:-0.0005747577265720061
-New effect:-0.0005746702450446906
+New effect:-0.0005744081757794107
 p value:0.94
 
 ----------------------------
@@ -32,13 +32,13 @@ p value:0.94
 placebo treatment refuter method result
 Refute: Use a Placebo Treatment
 Estimated effect:-0.0005747577265720061
-New effect:7.572470979178015e-07
-p value:0.86
+New effect:9.418722946934466e-06
+p value:0.74
 
 ----------------------------
 ----------------------------
 data subset refuter method result
 Refute: Use a subset of data
 Estimated effect:-0.0005747577265720061
-New effect:-0.0005760025222034404
-p value:0.96
+New effect:-0.000571641149174531
+p value:0.82
