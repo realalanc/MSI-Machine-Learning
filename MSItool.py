@@ -59,7 +59,7 @@ def readdata():
         global filename
         filename=args[0] #还有就是函数内用全局变量要声明global，下面的data同理
         global data
-        data=pd.read_csv(filename,header=None,index_col=0,low_memory=False) #这里硬编码死输入的csv名还是搞成输入参数？我这里改了是因为，原来的chosen_data有好多非数项不能跑
+        data=pd.read_csv(filename,header=0,index_col=0,low_memory=False) #这里硬编码死输入的csv名还是搞成输入参数？我这里改了是因为，原来的chosen_data有好多非数项不能跑
         #最重要的一点:数据预处理必须扔到非数项！包括sample的代号，除了index都要是数才行
         data=data.dropna()
     except:
@@ -150,9 +150,9 @@ def getcorrelation():
 
 def getgraph():
     import cdt
-    glasso = cdt.independence.graph.Glasso()
-    skeleton = glasso.predict(data)
-    new_skeleton = cdt.utils.graph.remove_indirect_links(skeleton, alg='aracne')
+    #glasso = cdt.independence.graph.Glasso()
+    #skeleton = glasso.predict(data)
+    #new_skeleton = cdt.utils.graph.remove_indirect_links(skeleton, alg='aracne')
     if(algorithm==1):
         model = cdt.causality.graph.CCDr()
     elif algorithm==2:
@@ -199,16 +199,16 @@ def dowhytest(graph):
         exit()
     if evalution==1:
         estimate = model_dowhy.estimate_effect(identified_estimand, method_name="backdoor.linear_regression")
-        #print(estimate)
+        print(estimate)
         refute1_results=model_dowhy.refute_estimate(identified_estimand, estimate,
             method_name="random_common_cause")
-        #print(refute1_results)
+        print(refute1_results)
         refute2_results=model_dowhy.refute_estimate(identified_estimand, estimate,
             method_name="placebo_treatment_refuter")
-        #print(refute2_results)
+        print(refute2_results)
         refute3_results=model_dowhy.refute_estimate(identified_estimand, estimate,
             method_name="data_subset_refuter")
-        #print(refute3_results)
+        print(refute3_results)
         with open("evalution.txt","w",encoding='utf-8') as f:#还是那个问题：如果是全局路径就莫名会no such file
             f.write("estimate:\n")
             f.write(str(estimate))
@@ -223,13 +223,13 @@ def dowhytest(graph):
             f.write(str(refute3_results))
     elif evalution==2:
         estimate_iv=model_dowhy.estimate_effect(identified_estimand, method_name="iv.instrumental_variable")
-        #print(estimate)
+        print(estimate_iv)
         refute1_results=model_dowhy.refute_estimate(identified_estimand, estimate_iv,
             method_name="random_common_cause")
-        #print(refute1_results)
+        print(refute1_results)
         refute2_results=model_dowhy.refute_estimate(identified_estimand, estimate_iv,
             method_name="data_subset_refuter")
-        #print(refute3_results)
+        print(refute2_results)
         with open("evalution.txt","w",encoding='utf-8') as f:
             f.write("estimate:\n")
             f.write(str(estimate_iv))

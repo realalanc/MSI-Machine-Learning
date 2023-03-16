@@ -7,38 +7,38 @@ Estimand type: EstimandType.NONPARAMETRIC_ATE
 ### Estimand : 1
 Estimand name: backdoor
 Estimand expression:
-   d                     
-───────(E[MSI-ALL|TCEA2])
-d[MLH₁]                  
-Estimand assumption 1, Unconfoundedness: If U→{MLH1} and U→MSI-ALL then P(MSI-ALL|MLH1,TCEA2,U) = P(MSI-ALL|MLH1,TCEA2)
+  d            
+──────(E[MLH₁])
+d[MSI]         
+Estimand assumption 1, Unconfoundedness: If U→{MSI} and U→MLH1 then P(MLH1|MSI,,U) = P(MLH1|MSI,)
 
 ## Realized estimand
-b: MSI-ALL~MLH1+TCEA2
+b: MLH1~MSI
 Target units: ate
 
 ## Estimate
-Mean value: -0.0005747577265720061
+Mean value: -358.07851111403534
 
 ----------------------------
 ----------------------------
 random common cause method result:
 Refute: Add a random common cause
-Estimated effect:-0.0005747577265720061
-New effect:-0.0005744081757794107
-p value:0.94
+Estimated effect:-358.07851111403534
+New effect:-358.24047957561714
+p value:0.8200000000000001
 
 ----------------------------
 ----------------------------
 placebo treatment refuter method result
 Refute: Use a Placebo Treatment
-Estimated effect:-0.0005747577265720061
-New effect:9.418722946934466e-06
-p value:0.74
+Estimated effect:-358.07851111403534
+New effect:-0.09198880052877939
+p value:0.98
 
 ----------------------------
 ----------------------------
 data subset refuter method result
 Refute: Use a subset of data
-Estimated effect:-0.0005747577265720061
-New effect:-0.000571641149174531
-p value:0.82
+Estimated effect:-358.07851111403534
+New effect:-356.63969283500234
+p value:0.86
