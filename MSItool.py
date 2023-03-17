@@ -46,7 +46,7 @@ evalution=0
 filename=""
 writedir="" #貌似也是作用域的问题，不在这里写上的话后面就会认为writedir只在那个for里面定义
 data=0
-msiname="MSI"
+msiname="MSIscore"
 args=[]
 opts=[]
 try:
@@ -59,7 +59,7 @@ def readdata():
         global filename
         filename=args[0] #还有就是函数内用全局变量要声明global，下面的data同理
         global data
-        data=pd.read_csv(filename,header=None,index_col=0,low_memory=False) #这里硬编码死输入的csv名还是搞成输入参数？我这里改了是因为，原来的chosen_data有好多非数项不能跑
+        data=pd.read_csv(filename,header=None,index_col=0,low_memory=False) #这里硬编码死输入的csv名还是搞成输入参数？我这里改了是因为，原来的chosen_data有好多非数项不能跑1
         #最重要的一点:数据预处理必须扔到非数项！包括sample的代号，除了index都要是数才行
         data=data.dropna()
     except:
