@@ -6,8 +6,8 @@ star7=[]
 star6=[]
 star5=[]
 star4=[]
-with open("ttest_deseq2.txt","r") as f:
-    with open("ttest_deseq22.txt","r") as g:
+with open("../old_result/ttest_deseq2.txt","r") as f:
+    with open("../old_result/ttest_deseq22.txt","r") as g:
         while True:
             namet=f.readline()
             if not namet:
@@ -50,7 +50,7 @@ print(len(star9))
 print(star9)
 print(len(star8))
 star8.append("CLDN11")
-star8.append("MSI")
+star8.append("MSIscore")
 #print(star8)
 print(len(star7))
 #print(star7)
@@ -58,7 +58,7 @@ print(len(star7))
 #print(star6)
 #print(len(star5))
 
-data=pd.read_csv("DESeq2.csv",index_col=0,header=0)
+data=pd.read_csv("../DESeq2_scored.csv",index_col=0,header=0)
 
 newdata=(data.loc[star8]).T
-newdata.to_csv("chosendata2.csv",index=True)
+newdata.to_csv("../chosendata2.csv",index=True)

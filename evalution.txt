@@ -1,0 +1,48 @@
+estimate:
+*** Causal Estimate ***
+
+## Identified estimand
+Estimand type: nonparametric-ate
+
+### Estimand : 1
+Estimand name: iv
+Estimand expression:
+Expectation(Derivative(MLH1, [RPL22L1, SREBF1, SLC35F5, SOCS6])*Derivative([MS
+Iscore], [RPL22L1, SREBF1, SLC35F5, SOCS6])**(-1))
+Estimand assumption 1, As-if-random: If U→→MLH1 then ¬(U →→{RPL22L1,SREBF1,SLC35F5,SOCS6})
+Estimand assumption 2, Exclusion: If we remove {RPL22L1,SREBF1,SLC35F5,SOCS6}→{MSIscore}, then ¬({RPL22L1,SREBF1,SLC35F5,SOCS6}→MLH1)
+
+## Realized estimand
+Realized estimand: Wald Estimator
+Realized estimand type: nonparametric-ate
+Estimand expression:
+                                                                              
+Expectation(Derivative(MLH1, RPL22L1,SREBF1,SLC35F5,SOCS6))⋅Expectation(Deriva
+
+                                             -1
+tive(MSIscore, RPL22L1,SREBF1,SLC35F5,SOCS6))  
+Estimand assumption 1, As-if-random: If U→→MLH1 then ¬(U →→{RPL22L1,SREBF1,SLC35F5,SOCS6})
+Estimand assumption 2, Exclusion: If we remove {RPL22L1,SREBF1,SLC35F5,SOCS6}→{MSIscore}, then ¬({RPL22L1,SREBF1,SLC35F5,SOCS6}→MLH1)
+Estimand assumption 3, treatment_effect_homogeneity: Each unit's treatment ['MSIscore'] is affected in the same way by common causes of ['MSIscore'] and MLH1
+Estimand assumption 4, outcome_effect_homogeneity: Each unit's outcome MLH1 is affected in the same way by common causes of ['MSIscore'] and MLH1
+
+Target units: ate
+
+## Estimate
+Mean value: 3020.6007294066408
+
+----------------------------
+----------------------------
+random common cause method result:
+Refute: Add a random common cause
+Estimated effect:3020.6007294066408
+New effect:3020.6007294066408
+p value:2.0
+
+----------------------------
+----------------------------
+data subset refuter method result
+Refute: Use a subset of data
+Estimated effect:3020.6007294066408
+New effect:3012.585843100156
+p value:0.8799999999999999

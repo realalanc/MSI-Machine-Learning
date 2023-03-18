@@ -1,0 +1,21 @@
+Estimand type: nonparametric-ate
+
+### Estimand : 1
+Estimand name: backdoor
+Estimand expression:
+     d                        
+───────────(Expectation(MLH1))
+d[MSIscore]                   
+Estimand assumption 1, Unconfoundedness: If U→{MSIscore} and U→MLH1 then P(MLH1|MSIscore,,U) = P(MLH1|MSIscore,)
+
+### Estimand : 2
+Estimand name: iv
+Estimand expression:
+Expectation(Derivative(MLH1, [RPL22L1, SREBF1, SLC35F5, SOCS6])*Derivative([MS
+Iscore], [RPL22L1, SREBF1, SLC35F5, SOCS6])**(-1))
+Estimand assumption 1, As-if-random: If U→→MLH1 then ¬(U →→{RPL22L1,SREBF1,SLC35F5,SOCS6})
+Estimand assumption 2, Exclusion: If we remove {RPL22L1,SREBF1,SLC35F5,SOCS6}→{MSIscore}, then ¬({RPL22L1,SREBF1,SLC35F5,SOCS6}→MLH1)
+
+### Estimand : 3
+Estimand name: frontdoor
+No such variable(s) found!
