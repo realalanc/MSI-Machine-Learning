@@ -61,7 +61,7 @@ def readdata():
         global data
         data=pd.read_csv(filename,header=0,index_col=0,low_memory=False) #这里硬编码死输入的csv名还是搞成输入参数？我这里改了是因为，原来的chosen_data有好多非数项不能跑1
         #最重要的一点:数据预处理必须扔到非数项！包括sample的代号，除了index都要是数才行
-        data=data.dropna()
+        data=data.dropna(axis="columns")
     except:
         print("you need to choose a csv file as input")
         exit()
@@ -151,8 +151,8 @@ def getcorrelation():
 def getgraph():
     import cdt
     glasso = cdt.independence.graph.Glasso()
-    skeleton = glasso.predict(data)
-    new_skeleton = cdt.utils.graph.remove_indirect_links(skeleton, alg='aracne')
+    #skeleton = glasso.predict(data)
+    #new_skeleton = cdt.utils.graph.remove_indirect_links(skeleton, alg='aracne')
     if(algorithm==1):
         model = cdt.causality.graph.CCDr()
     elif algorithm==2:
@@ -240,15 +240,18 @@ def dowhytest(graph):
             f.write("data subset refuter method result\n")
             f.write(str(refute2_results))
     print("result of evalution has been written into evalution.txt")
-if correlation!=0:
-    getcorrelation()
-    exit()
-if algorithm!=0:
-    graph=getgraph()
-else:
-    if graphname=="":
+
+
+if __name__ == '__main__':
+    if correlation!=0:
+        getcorrelation()
         exit()
+    if algorithm!=0:
+        graph=getgraph()
     else:
-        graph=nx.read_gml(graphname,label='label')
-if dowhytest!=0:
-    dowhytest(graph)
+        if graphname=="":
+            exit()
+        else:
+            graph=nx.read_gml(graphname,label='label')
+    if dowhytest!=0:
+        dowhytest(graph)

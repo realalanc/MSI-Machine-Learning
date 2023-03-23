@@ -1,0 +1,44 @@
+estimate:
+*** Causal Estimate ***
+
+## Identified estimand
+Estimand type: nonparametric-ate
+
+### Estimand : 1
+Estimand name: backdoor
+Estimand expression:
+   d                              
+───────(Expectation(MSIscore|VTN))
+d[MLH₁]                           
+Estimand assumption 1, Unconfoundedness: If U→{MLH1} and U→MSIscore then P(MSIscore|MLH1,VTN,U) = P(MSIscore|MLH1,VTN)
+
+## Realized estimand
+b: MSIscore~MLH1+VTN
+Target units: ate
+
+## Estimate
+Mean value: -0.00020325917539820715
+
+----------------------------
+----------------------------
+random common cause method result:
+Refute: Add a random common cause
+Estimated effect:-0.00020325917539820715
+New effect:-0.00020329297811373992
+p value:0.8999999999999999
+
+----------------------------
+----------------------------
+placebo treatment refuter method result
+Refute: Use a Placebo Treatment
+Estimated effect:-0.00020325917539820715
+New effect:0.0
+p value:2.0
+
+----------------------------
+----------------------------
+data subset refuter method result
+Refute: Use a subset of data
+Estimated effect:-0.00020325917539820715
+New effect:-0.00020181694632987024
+p value:0.76
