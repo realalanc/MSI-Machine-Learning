@@ -21,17 +21,17 @@ with open("../old_result/ttest_deseq2.txt","r") as f:
             q1=g.readline().strip()
             q2=g.readline().strip().split(' ')
             q3=g.readline().strip()
-            if q3=='n': continue
+            #if q3=='n': continue
             if p1=='nan' or p2=='nan' or p3=='nan': continue
             #if p1<=0.05: star+=1
             #if p1<=0.01: star+=1
-            if p1<=0.001: star+=1
+            if p1<=0.1: star+=1
             #if p2<=0.05: star+=1
             #if p2<=0.01: star+=1
-            if p2<=0.001: star+=1
+            if p2<=0.1: star+=1
             #if p3<=0.05: star+=1
             #if p3<=0.01: star+=1
-            if p3<=0.001: star+=1
+            if p3<=0.1: star+=1
             genelist[name]=[p1,p2,p3]
             if avg<=2.0:
                 continue
@@ -47,10 +47,10 @@ with open("../old_result/ttest_deseq2.txt","r") as f:
             #    star5.append(name)
 
 print(len(star9))
-print(star9)
+#print(star9)
 print(len(star8))
-star8.append("CLDN11")
-star8.append("MSIscore")
+#star8.append("CLDN11")
+#star8.append("MSIscore")
 #print(star8)
 print(len(star7))
 #print(star7)
