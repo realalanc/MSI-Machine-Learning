@@ -16,7 +16,8 @@ if __name__ == '__main__':
     )
 
     # DFS 因果关系链
-    print(get_causal_chains(p, start=96, labels=labels))
+    with open('data/result.txt','w') as f:
+        f.write(get_causal_chains(p, start=96, labels=labels))
 
     # 画图
     plot(p, labels, image_path)
