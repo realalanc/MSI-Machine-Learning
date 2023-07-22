@@ -2,36 +2,36 @@ estimate:
 *** Causal Estimate ***
 
 ## Identified estimand
-Estimand type: nonparametric-ate
+Estimand type: EstimandType.NONPARAMETRIC_ATE
 
 ### Estimand : 1
 Estimand name: backdoor
 Estimand expression:
-   d                              
-───────(Expectation(MSIscore|VTN))
-d[MLH₁]                           
-Estimand assumption 1, Unconfoundedness: If U→{MLH1} and U→MSIscore then P(MSIscore|MLH1,VTN,U) = P(MSIscore|MLH1,VTN)
+   d                      
+───────(E[MSIscore|FITM2])
+d[MLH₁]                   
+Estimand assumption 1, Unconfoundedness: If U→{MLH1} and U→MSIscore then P(MSIscore|MLH1,FITM2,U) = P(MSIscore|MLH1,FITM2)
 
 ## Realized estimand
-b: MSIscore~MLH1+VTN
+b: MSIscore~MLH1+FITM2+MLH1*QPRT+MLH1*ASCL2+MLH1*AMACR+MLH1*GGT7+MLH1*UBE2L6+MLH1*MCUB+MLH1*ZMYND8+MLH1*RNF43+MLH1*TSPAN6+MLH1*SPATA25+MLH1*GNLY+MLH1*AXIN2+MLH1*FECH+MLH1*PLAGL2+MLH1*NOL4L+MLH1*GZMA+MLH1*ASPHD2+MLH1*ENGASE+MLH1*CTSW+MLH1*ATP9A+MLH1*POFUT1
 Target units: ate
 
 ## Estimate
-Mean value: -0.00020325917539820715
+Mean value: -0.00022374141370978817
 
 ----------------------------
 ----------------------------
 random common cause method result:
 Refute: Add a random common cause
-Estimated effect:-0.00020325917539820715
-New effect:-0.00020329297811373992
-p value:0.8999999999999999
+Estimated effect:-0.00022374141370978817
+New effect:-0.00022373357626442325
+p value:0.98
 
 ----------------------------
 ----------------------------
 placebo treatment refuter method result
 Refute: Use a Placebo Treatment
-Estimated effect:-0.00020325917539820715
+Estimated effect:-0.00022374141370978817
 New effect:0.0
 p value:2.0
 
@@ -39,6 +39,6 @@ p value:2.0
 ----------------------------
 data subset refuter method result
 Refute: Use a subset of data
-Estimated effect:-0.00020325917539820715
-New effect:-0.00020181694632987024
-p value:0.76
+Estimated effect:-0.00022374141370978817
+New effect:-0.00022691977224262527
+p value:0.96
