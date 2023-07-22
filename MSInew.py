@@ -6,9 +6,6 @@ import networkx as nx
 from scipy.stats import spearmanr
 
 def read_data():
-
-    import pandas as pd
-
     # 读取 CSV 文件
     csv_file_path = 'DESeq2_scored.csv'  # 替换为实际的文件路径
     df = pd.read_csv(csv_file_path)
