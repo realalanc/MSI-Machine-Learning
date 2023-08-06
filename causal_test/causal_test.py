@@ -5,26 +5,51 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 
 
-def pseudo_data_generator(flag=True):
+def pseudo_data_generator(num=100,rate=0.6,flag=True,is_noise=False): # rate means how many nodes are the ones to be researched
+    # notice! nodes=num*rate shall be an int
     if not flag:
-        graph = nx.read_gml("generated_graph")
+        graph_causal = nx.read_gml("generated_graph")
     else:
-        generator = cdt.data.AcyclicGraphGenerator(causal_mechanism="gp_add", noise='gaussian',
+        #selected
+        generator_causal = cdt.data.AcyclicGraphGenerator(causal_mechanism="gp_add", noise='gaussian',
                                                    noise_coeff=0.4,
-                                                   npoints=500, nodes=20, parents_max=5, expected_degree=3)
-        data, graph = generator.generate()
-        print(data)
-        generator.to_csv('generated_graph')
-        nx.write_gml(graph, "generated_graph")
-    nx.draw_networkx(graph)
+                                                   npoints=500, nodes=int(num*rate), parents_max=5, expected_degree=3)
+        data_causal, graph_causal = generator_causal.generate()
+        #noise
+        generator_noise = cdt.data.AcyclicGraphGenerator(causal_mechanism="gp_add", noise='gaussian',
+                                                   noise_coeff=0.4,
+                                                   npoints=500, nodes=int(num*(1-rate)), parents_max=5, expected_degree=3)
+        data_noise,graph_noise=generator_noise.generate()
+
+        #print(data)
+        generator_causal.to_csv('generated_graph')
+        generator_noise.to_csv('noise')
+        data1=pd.read_csv("generated_graph_data.csv")
+        data2=pd.read_csv("noise_data.csv")
+
+        list_nodes=data2.columns.to_list()
+        print(list_nodes)
+        list_nodes_fixed=[]
+        for i in list_nodes:
+            list_nodes_fixed.append(i+"'")
+        print(list_nodes_fixed)
+        #data2.rename(columns=dict(zip(list_nodes, list_nodes_fixed)), inplace=True)# solve columns' name conflict
+        data2.rename(columns={i:j for i,j in zip(list_nodes,list_nodes_fixed)},inplace=True)
+        print(data2)
+        merged_data=pd.concat([data1,data2],axis=1)
+        print(merged_data)         # test
+        merged_data.to_csv("merged_data.csv")  # merge the data between selected nodes and noise nodes
+        nx.write_gml(graph_causal, "generated_graph") # only save the selected nodes
+
+    nx.draw_networkx(graph_causal)
     plt.savefig("generated_graph.png", format="PNG")
-    plt.show()
-    return graph
+    plt.show()    # print it
+    return graph_causal
 
 
-def causal_discovery(data_name):
+def causal_discovery(data_name):      # may not use
     data = pd.read_csv(data_name)
-    model = cdt.causality.graph.PC()
+    model = cdt.causality.graph.PC()     # ok to change the solver
     inferred_graph = model.predict(data)
     nx.draw_networkx(inferred_graph)
     plt.savefig("inferred_graph.png", format="PNG")
@@ -32,7 +57,7 @@ def causal_discovery(data_name):
     return inferred_graph
 
 
-def distance(gt, infer):  # loss used in a paper
+def distance(gt, infer):  # loss used in a paper, may be improved
     correct_true_true = 0  # 'true' identified as 'true'
     correct_false_false = 0
     for node1 in nx.nodes(gt):
@@ -49,19 +74,24 @@ def distance(gt, infer):  # loss used in a paper
     return d
 
 
-def data_spliter(data_name,data1_name,data2_name,size=0.6, seed=114514):
+def data_spliter(data_name,data1_name,data2_name,rate=0.6, seed=114514):
     data = pd.read_csv(data_name)
-    data1, data2 = train_test_split(data, train_size=size, random_state=seed)  # data1 is 0.6
+    data=data.T
+    print(data)
+    data1, data2 = train_test_split(data, train_size=rate, random_state=seed)  # data1 is 0.6
+
+    data1=data1.T
+    data2=data2.T
+    print(data1)
+    print(data2)
     data1.to_csv(data1_name)
     data2.to_csv(data2_name)
 
 def algorithm(core="core_data.csv",whole_data="generated_graph_data.csv"):
-    pass   # I have generated possible framework by ChatGPT in MSInew.py, it may help
+    pass   # I have generated possible framework by ChatGPT in MSInew.py, it may help, developed later
 
-
-generated_graph = pseudo_data_generator(False)  # true(default) to re-generate data, otherwise load data
-data_spliter("generated_graph_data.csv","visible_data.csv","hidden_data.csv")
-data_spliter("visible_data.csv","core_data.csv","adding_data.csv",size=0.4/0.6)
-gt_graph = causal_discovery(data_name="visible_data.csv")
+causality_rate=0.6
+gt_graph = pseudo_data_generator()  # true(default) to re-generate data, otherwise load data
+data_spliter("generated_graph_data.csv","core_data.csv","adding_data.csv",rate=2/3)
 inferred_graph=algorithm()
-distance(gt_graph, inferred_graph)
+#distance(gt_graph, inferred_graph)  # may need overwrite
